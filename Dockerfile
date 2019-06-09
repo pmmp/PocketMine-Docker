@@ -23,5 +23,7 @@ RUN chown -R pocketmine:1000 .
 USER pocketmine
 RUN chmod +x bin/php7/bin/php start.sh
 
+ENV TERM=xterm
+
 VOLUME ["/data", "/plugins"]
 CMD bash -c 'sudo chown 1000 /data /plugins -R && ./start.sh --no-wizard --enable-ansi --data=/data --plugins=/plugins'
