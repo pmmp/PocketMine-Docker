@@ -8,6 +8,7 @@
 # TAG: the PocketMine-MP repo tag to build against
 # WORKSPACE: the directory of the workspace containing the expected files
 
+set -x
 set -e
 
 cd "$WORKSPACE"
