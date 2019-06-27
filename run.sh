@@ -8,6 +8,8 @@
 # TAG: the PocketMine-MP repo tag to build against
 # WORKSPACE: the directory of the workspace containing the expected files
 
+set -e
+
 cd "$WORKSPACE"
 tar xzf PHP_Linux-x86_64.tar.gz
 
