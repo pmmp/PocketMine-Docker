@@ -43,19 +43,25 @@ FROM ubuntu:bionic
 MAINTAINER PMMP Team <team@pmmp.io>
 
 RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates wget
+RUN du -sh / || true
 
 RUN groupadd -g 1000 pocketmine
 RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
+RUN du -sh / || true
 
 WORKDIR /pocketmine
 COPY --from=php-build /build/bin/php7 /usr/php
 RUN ln -s /usr/php/bin/php /usr/bin/php
+RUN du -sh / || true
 COPY --from=phar-build /build/PocketMine-MP.phar PocketMine-MP.phar
+RUN du -sh / || true
 ADD start.sh /usr/bin/start-pocketmine
+RUN du -sh / || true
 
 RUN mkdir /plugins /data
 RUN chown 1000:1000 /plugins /data . -R
 RUN chmod o+x /usr/bin/php
+RUN du -sh / || true
 
 USER pocketmine
 
@@ -65,5 +71,6 @@ EXPOSE 19132/tcp
 EXPOSE 19132/udp
 
 VOLUME ["/data", "/plugins"]
+RUN du -sh / || true
 
 CMD start-pocketmine
