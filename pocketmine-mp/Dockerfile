@@ -42,12 +42,7 @@ RUN inject-metadata PocketMine-MP.phar git $(git rev-parse HEAD)
 FROM ubuntu:bionic
 MAINTAINER PMMP Team <team@pmmp.io>
 
-RUN apt-get update && apt-get --no-install-recommends -y install \
-	ca-certificates \
-	curl \
-	wget \
-	vim
-# I almost always need some handy text editors for debugging. Sorry...
+RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates wget
 
 RUN groupadd -g 1000 pocketmine
 RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
