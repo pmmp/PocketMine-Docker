@@ -3,7 +3,6 @@ sudo: required
 env:
   matrix:
     - TEST_AGAINST="3.11.1"
-    - TEST_AGAINST=master
 services:
   - docker
 install:
