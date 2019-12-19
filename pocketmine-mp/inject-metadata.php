@@ -1,7 +1,7 @@
 #!/usr/bin/php -dphar.readonly=0
 <?php
 if(!isset($argv[3])){
-	echo "Usage: inject-metadata <PHAR> <KEY> <VALUE>"
+	echo "Usage: inject-metadata <PHAR> <KEY> <VALUE>";
 	exit(1);
 }
 $phar = new Phar($argv[1]);

@@ -16,10 +16,10 @@ RUN chmod u+x compile.sh
 RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} -f -u -g -l
 
 # Build stage for PocketMine-MP.phar compilation. Build tools like composer will not be copied into the final stage.
-RUN ubuntu:bionic AS phar-build
+FROM ubuntu:bionic AS phar-build
 ARG PMMP_TAG
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl git
+RUN apt-get update && apt-get install --no-install-recommends -y curl git ca-certificates cpp
 COPY --from=php-build /build/bin/php7 /php
 RUN ln -s /php/bin/php /usr/bin/php
 ADD inject-metadata.php /usr/bin/inject-metadata
@@ -27,7 +27,7 @@ ADD inject-metadata.php /usr/bin/inject-metadata
 RUN mkdir /build
 WORKDIR /build
 RUN curl -L https://getcomposer.org/installer | php
-RUN mv /composer.phar /usr/bin/composer
+RUN mv composer.phar /usr/bin/composer
 
 RUN git clone https://github.com/pmmp/PocketMine-MP.git -b ${PMMP_TAG} --recursive .
 RUN composer install --classmap-authoritative --no-dev --prefer-source
@@ -50,12 +50,17 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 # I almost always need some handy text editors for debugging. Sorry...
 
 RUN groupadd -g 1000 pocketmine
-RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine -g sudo pocketmine
+RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
 
 WORKDIR /pocketmine
-COPY --from=php-build /build/bin/php7 /usr/bin/php
+COPY --from=php-build /build/bin/php7 /usr/php
+RUN ln -s /usr/php/bin/php /usr/bin/php
 COPY --from=phar-build /build/PocketMine-MP.phar PocketMine-MP.phar
 ADD start.sh /usr/bin/start-pocketmine
+
+RUN mkdir /plugins /data
+RUN chown 1000:1000 /plugins /data . -R
+RUN chmod o+x /usr/bin/php
 
 USER pocketmine
 

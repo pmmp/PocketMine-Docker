@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Detect unowned files (this is a common docker issue)
 BAD_COUNT=$(find /data /plugins ! -user pocketmine | wc -l)
 if [ $BAD_COUNT -gt 0 ]; then
@@ -17,7 +19,7 @@ fi
 # Versions can be appended to plugin name separated by a colon
 # Example: POCKETMINE_PLUGINS="EconomyAPI:5.7.2 PurePerms PureChat:1.4.11"
 if [ ! -z "$POCKETMINE_PLUGINS" ]; then
-	for PLUGIN in (echo $POCKETMINE_PLUGINS | tr " " "\n"); do
+	for PLUGIN in $(echo $POCKETMINE_PLUGINS | tr " " "\n"); do
 		PLUGIN_NAME=$(echo $PLUGIN | cut -d: -f1)
 		PLUGIN_VERSION=$(echo $PLUGIN | cut -d: -f2)
 
