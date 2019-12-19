@@ -13,14 +13,14 @@ before_script:
   - sudo chown -R 1000:1000 ./testsuite ./data
 script:
   # Test if it builds
-  - docker build -t pmmp/pocketmine-mp --build-arg PMMP_TAG=$TEST_AGAINST pocketmine-mp
+  - docker build -t local-pocketmine-mp --build-arg PMMP_TAG=$TEST_AGAINST pocketmine-mp
   # Test if it runs the normal server properly
-  - echo stop | docker run --rm -i pmmp/pocketmine-mp
+  - echo stop | docker run --rm -i local-pocketmine-mp
   # Test if it loads plugins
-  - echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/$TEST_AGAINST/create-data:/plugins pmmp/pocketmine-mp
+  - echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/$TEST_AGAINST/create-data:/plugins local-pocketmine-mp
   - test -f data/plugin_data/data-test/create-data
   - "test \"$(cat data/plugin_data/data-test/create-data)\" == successful"
   # Test if it persists plugin data
-  - echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/$TEST_AGAINST/verify-data:/plugins pmmp/pocketmine-mp
+  - echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/$TEST_AGAINST/verify-data:/plugins local-pocketmine-mp
   # Test if it downloads plugins
-  - "test $TEST_AGAINST '!=' master && echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/$TEST_AGAINST/verify-plugins:/plugins -e POCKETMINE_PLUGINS='PurePerms:1.4.2-c2a PureChat' pmmp/pocketmine-mp"
+  - "test $TEST_AGAINST '!=' master && echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/$TEST_AGAINST/verify-plugins:/plugins -e POCKETMINE_PLUGINS='PurePerms:1.4.2-c2a PureChat' local-pocketmine-mp"
