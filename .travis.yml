@@ -2,8 +2,8 @@ language: minimal
 sudo: required
 env:
   matrix:
-    - TEST_AGAINST="3.11.1" BUILD_ARGS="--build-arg PMMP_TAG=3.11.1"
-    - TEST_AGAINST=master BUILD_ARGS="--build-arg PMMP_TAG=master --build-arg BUILD_SCRIPTS_BRANCH=bleeding-edge"
+    - TEST_AGAINST="3.11.1"
+    - TEST_AGAINST=master
 services:
   - docker
 install:
@@ -13,7 +13,7 @@ before_script:
   - sudo chown -R 1000:1000 ./testsuite ./data
 script:
   # Test if it builds
-  - docker build -t local-pocketmine-mp $BUILD_ARGS pocketmine-mp
+  - docker build -t local-pocketmine-mp --build-arg PMMP_TAG=$TEST_AGAINST pocketmine-mp
   # Test if it runs the normal server properly
   - echo stop | docker run --rm -i local-pocketmine-mp
   # Test if it loads plugins

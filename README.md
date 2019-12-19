@@ -96,3 +96,9 @@ and shall be the working directory of the server unless changed by plugins.
 `/pocketmine` is also the home directory of the default user `pocketmine`.
 Unlike early pmmp/pocketmine-mp images, this default user is no longer a sudoer,
 so plugins cannot acquire root access under normal circumstances.
+
+## Building this image
+The Dockerile requires a build-arg `PMMP_TAG` indicating the tree on pmmp/PocketMine-MP to checkout for building.
+Currently, this image does not support building from local PocketMine-MP source directories
+and always uses a tree from pmmp/PocketMine-MP on GitHub.
+However, this can be easily changed by simply changing the `git clone` command.
