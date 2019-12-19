@@ -1,4 +1,4 @@
-language: php
+language: minimal
 sudo: required
 env:
   matrix:
