@@ -69,6 +69,6 @@ ENV TERM=xterm
 EXPOSE 19132/tcp
 EXPOSE 19132/udp
 
-VOLUME ["/data"]
+VOLUME ["/data", "/plugins"]
 
 CMD start-pocketmine
