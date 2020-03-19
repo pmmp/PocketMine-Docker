@@ -37,12 +37,12 @@ You can install plugins inside the `plugins` directory before starting the serve
 Now you can run PocketMine-Docker with the following command:
 
 ```
-docker run -it -p 19132:19132 -v $PWD/data:/data -v $PWD/plugins:/plugins pmmp/pocketmine-mp
+docker run -it -p 19132:19132/udp -v $PWD/data:/data -v $PWD/plugins:/plugins pmmp/pocketmine-mp
 ```
 
 Do NOT change the server port in server.properties.
 If you want to open the server on another port (e.g. `12345` instead),
-change the `19132:19132` above to `12345:19132`.
+change the `19132:19132/udp` above to `12345:19132/udp`.
 (The second number is ALWAYS `19132`)
 
 ### Run the server in the background
