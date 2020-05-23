@@ -40,6 +40,8 @@ RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
 
 WORKDIR /pocketmine
 COPY --from=0 /build/build/php/bin/php7 /usr/php
+RUN grep -q '^extension_dir' /usr/php/bin/php.ini && \
+	sed -ibak "s{^extension_dir=.*{extension_dir=\"$(find /usr/php -name *debug-zts*)\"{" /usr/php/bin/php.ini || echo "extension_dir=\"$(find /usr/php -name *debug-zts*)\"" >> /usr/php/bin/php.ini
 RUN ln -s /usr/php/bin/php /usr/bin/php
 COPY --from=0 /build/PocketMine-MP.phar PocketMine-MP.phar
 ADD start.sh /usr/bin/start-pocketmine
