@@ -59,4 +59,4 @@ EXPOSE 19132/udp
 
 VOLUME ["/data", "/plugins"]
 
-CMD start-pocketmine
+ENTRYPOINT ["start-pocketmine"]
