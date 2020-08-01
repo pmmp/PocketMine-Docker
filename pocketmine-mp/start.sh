@@ -32,4 +32,4 @@ fi
 
 # Run the server
 cd /pocketmine
-php PocketMine-MP.phar --no-wizard --enable-ansi --data=/data --plugins=/plugins
+exec php PocketMine-MP.phar --no-wizard --enable-ansi --data=/data --plugins=/plugins
