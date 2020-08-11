@@ -15,7 +15,6 @@ RUN ln -s /build/build/php/bin/php7/bin/php /usr/bin/php
 WORKDIR /build
 RUN curl -L https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
-ADD inject-metadata.php /usr/bin/inject-metadata
 
 RUN composer install --classmap-authoritative --no-dev --prefer-source
 RUN php build/preprocessor/PreProcessor.php --path=src --multisize
