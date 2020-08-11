@@ -21,14 +21,9 @@ RUN composer install --classmap-authoritative --no-dev --prefer-source
 RUN php build/preprocessor/PreProcessor.php --path=src --multisize
 RUN php $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 
-RUN php -dphar.readonly=0 tests/plugins/PocketMine-DevTools/src/DevTools/ConsoleScript.php \
-	--make=src,vendor$(test -d resources && echo -n ,resources) --relative=./ \
-	--entry=src/$(test -d src/pocketmine && echo -n pocketmine/)PocketMine.php \
-	--out=PocketMine-MP.phar
+RUN php build/server-phar.php --git $(git rev-parse HEAD)
 # Just to make sure DevTools didn't false-positive-exit
 RUN test -f /build/PocketMine-MP.phar
-
-RUN inject-metadata PocketMine-MP.phar git $(git rev-parse HEAD)
 
 FROM ubuntu:18.04
 MAINTAINER PMMP Team <team@pmmp.io>
