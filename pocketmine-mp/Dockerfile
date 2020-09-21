@@ -25,7 +25,7 @@ RUN php build/server-phar.php --git $(git rev-parse HEAD)
 RUN test -f /build/PocketMine-MP.phar
 
 FROM ubuntu:18.04
-MAINTAINER PMMP Team <team@pmmp.io>
+LABEL maintainer="PMMP Team <team@pmmp.io>"
 
 RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates wget
 
