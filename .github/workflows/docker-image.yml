@@ -12,10 +12,6 @@ jobs:
         include:
           - TEST_AGAINST: 3.25.4
             TESTSUITE_VERSION: 3.11.1
-          - TEST_AGAINST: 3.15.0
-            TESTSUITE_VERSION: 3.11.1
-          - TEST_AGAINST: 3.11.7
-            TESTSUITE_VERSION: 3.11.1
 
     steps:
     - uses: actions/checkout@v2
