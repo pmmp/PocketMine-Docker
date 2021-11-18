@@ -13,6 +13,8 @@ jobs:
         include:
           - TEST_AGAINST: 3.25.4
             TESTSUITE_VERSION: 3.11.1
+          - TEST_AGAINST: 4.0.0-BETA12
+            TESTSUITE_VERSION: 4.0.0
 
     steps:
     - uses: actions/checkout@v2
@@ -38,4 +40,7 @@ jobs:
       run: echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-data:/plugins local-pocketmine-mp
   
     - name: Test if it downloads plugins
-      run: "test ${{ matrix.TEST_AGAINST }} '!=' master && echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-plugins:/plugins -e POCKETMINE_PLUGINS='PurePerms:1.4.2-c2a PureChat' local-pocketmine-mp"
+      run: |
+        if [ test -d "testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-plugins" ]; then
+          echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-plugins:/plugins -e POCKETMINE_PLUGINS='PurePerms:1.4.2-c2a PureChat' local-pocketmine-mp
+        fi
