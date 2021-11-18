@@ -17,7 +17,7 @@ RUN curl -L https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
 
 RUN composer install --classmap-authoritative --no-dev --prefer-source
-RUN php build/preprocessor/PreProcessor.php --path=src --multisize
+RUN if test -d build/preprocessor; then php build/preprocessor/PreProcessor.php --path=src --multisize; else echo "Skipping preprocessor step (preprocessor not found)"; fi
 RUN php $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 
 RUN php build/server-phar.php --git $(git rev-parse HEAD)
