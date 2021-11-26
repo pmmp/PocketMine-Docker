@@ -13,8 +13,10 @@ jobs:
         include:
           - TEST_AGAINST: 3.25.4
             TESTSUITE_VERSION: 3.11.1
+            COMPILE_SH_ARGS: "-f -u -g -l"
           - TEST_AGAINST: 4.0.0-BETA12
             TESTSUITE_VERSION: 4.0.0
+            COMPILE_SH_ARGS: "-f -g"
 
     steps:
     - uses: actions/checkout@v2
@@ -28,7 +30,7 @@ jobs:
         sudo chown -R 1000:1000 ./testsuite ./data
 
     - name: Test if it builds
-      run: docker build -t local-pocketmine-mp --build-arg PMMP_TAG=${{ matrix.TEST_AGAINST }} pocketmine-mp
+      run: docker build -t local-pocketmine-mp --build-arg PMMP_TAG=${{ matrix.TEST_AGAINST }} --build-arg COMPILE_SH_ARGS=${{ matrix.COMPILE_SH_ARGS }} pocketmine-mp
     
     - name: Test if it runs the normal server properly
       run: echo stop | docker run --rm -i local-pocketmine-mp
