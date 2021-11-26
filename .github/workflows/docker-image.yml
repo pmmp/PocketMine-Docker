@@ -46,6 +46,6 @@ jobs:
   
     - name: Test if it downloads plugins
       run: |
-        if [ test -d "testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-plugins" ]; then
+        if [ -d "testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-plugins" ]; then
           echo stop | docker run --rm -i -v $PWD/data:/data -v $PWD/testsuite/${{ matrix.TESTSUITE_VERSION }}/verify-plugins:/plugins -e POCKETMINE_PLUGINS='PurePerms:1.4.2-c2a PureChat' local-pocketmine-mp
         fi
