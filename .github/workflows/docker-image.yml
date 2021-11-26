@@ -30,7 +30,7 @@ jobs:
         sudo chown -R 1000:1000 ./testsuite ./data
 
     - name: Test if it builds
-      run: docker build -t local-pocketmine-mp --build-arg PMMP_TAG=${{ matrix.TEST_AGAINST }} --build-arg COMPILE_SH_ARGS=${{ matrix.COMPILE_SH_ARGS }} pocketmine-mp
+      run: docker build -t local-pocketmine-mp --build-arg PMMP_TAG=${{ matrix.TEST_AGAINST }} --build-arg COMPILE_SH_ARGS="${{ matrix.COMPILE_SH_ARGS }}" pocketmine-mp
     
     - name: Test if it runs the normal server properly
       run: echo stop | docker run --rm -i local-pocketmine-mp
