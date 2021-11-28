@@ -21,7 +21,7 @@ RUN composer install --classmap-authoritative --no-dev --prefer-source
 RUN if test -d build/preprocessor; then php build/preprocessor/PreProcessor.php --path=src --multisize; else echo "Skipping preprocessor step (preprocessor not found)"; fi
 RUN php $(test -d vendor/pocketmine/bedrock-data && echo -n vendor/pocketmine/bedrock-data || echo -n src/pocketmine/resources/vanilla)/.minify_json.php
 
-RUN php build/server-phar.php --git $(git rev-parse HEAD)
+RUN php -dphar.readonly=0 build/server-phar.php --git $(git rev-parse HEAD)
 # Just to make sure DevTools didn't false-positive-exit
 RUN test -f /build/PocketMine-MP.phar
 
