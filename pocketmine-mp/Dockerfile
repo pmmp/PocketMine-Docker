@@ -1,7 +1,7 @@
 # Build stage for compilation. Build tools like g++ will not be copied into the final stage to reduce image size.
 FROM ubuntu:18.04
 ARG PMMP_TAG
-ARG COMPILE_SH_ARGS="-f -g -3"
+ARG COMPILE_SH_ARGS="-f -g"
 RUN test ! -z ${PMMP_TAG} || (echo "Missing build-arg PMMP_TAG" && false)
 
 RUN apt-get update && apt-get install --no-install-recommends -y curl ca-certificates build-essential m4 gzip bzip2 bison git cmake autoconf automake pkg-config libtool libtool-bin re2c
