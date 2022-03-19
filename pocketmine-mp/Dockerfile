@@ -2,13 +2,15 @@
 FROM ubuntu:18.04
 ARG PMMP_TAG
 ARG COMPILE_SH_ARGS="-f -g"
+ARG PMMP_REPO=pmmp/PocketMine-MP
+
 RUN test ! -z ${PMMP_TAG} || (echo "Missing build-arg PMMP_TAG" && false)
 
 RUN apt-get update && apt-get install --no-install-recommends -y curl ca-certificates build-essential m4 gzip bzip2 bison git cmake autoconf automake pkg-config libtool libtool-bin re2c
 
 RUN mkdir /build
 WORKDIR /build
-RUN git clone https://github.com/pmmp/PocketMine-MP.git -b ${PMMP_TAG} --recursive .
+RUN git clone https://github.com/${PMMP_REPO}.git -b ${PMMP_TAG} --recursive .
 WORKDIR /build/build/php
 RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} ${COMPILE_SH_ARGS}
 RUN ln -s /build/build/php/bin/php7/bin/php /usr/bin/php
