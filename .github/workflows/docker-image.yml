@@ -11,10 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - TEST_AGAINST: 3.25.6
-            TESTSUITE_VERSION: 3.11.1
-            COMPILE_SH_ARGS: "-f -g -3"
-          - TEST_AGAINST: 4.0.0-BETA13
+          - TEST_AGAINST: 4.6.1
             TESTSUITE_VERSION: 4.0.0
             COMPILE_SH_ARGS: "-f -g"
 
