@@ -12,7 +12,7 @@ RUN mkdir /build
 WORKDIR /build
 RUN git clone https://github.com/${PMMP_REPO}.git -b ${PMMP_TAG} --recursive .
 WORKDIR /build/build/php
-RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} ${COMPILE_SH_ARGS}
+RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} ${COMPILE_SH_ARGS} -P $(echo ${PMMP_TAG} | cut -d "." -f1)
 RUN ln -s /build/build/php/bin/php7/bin/php /usr/bin/php
 
 WORKDIR /build
