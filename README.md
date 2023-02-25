@@ -36,7 +36,7 @@ In the run command shown above, change `19132:19132/udp` to `<port number you wa
 ## Editing the server data
 The server data (e.g. worlds, `server.properties`, etc.) will be stored in the `data` folder you created above.
 
-**Note: If you add new files (e.g. a world), don't forget to change the ownership of the file/folder to `1000:1000`:
+**Note: If you add new files (e.g. a world), don't forget to change the ownership of the file/folder to `1000:1000`**:
 ```
 sudo chown -R 1000:1000 <file/folder you added>
 ```
