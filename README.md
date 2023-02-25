@@ -4,63 +4,81 @@ Hosts the files used to build pmmp/pocketmine-mp docker image
 ## What is this?
 Docker lets you install software more easily by "copying the whole machine over".
 To use Docker, you must be on a Linux/MacOS machine.
-(Docker also works on Windows, but trying to run Linux containers on Windows usually creates more problems than it solves)
 
-To install Docker, refer to the [official Docker docs](https://docs.docker.com/install/).
+To install Docker, refer to the [official Docker docs](https://docs.docker.com/engine/install/).
 
-## Explained Like I'm 5
-(If you prefer a more technical reference, there is a [Reference](#reference) section below)
-
-(You do NOT need to clone this repo to install PocketMine-Docker)
+## Running PocketMine-MP from Docker (using Docker Hub)
+This is really easy once you have `docker` installed.
 
 (Although this is an ELI5, you still need to know how to run commands on a Linux/MacOS machine and already have Docker installed)
 
-First, create the directories `data` and `plugins` somewhere to store the server data:
-
 ```
+mkdir wherever-you-want
+cd wherever-you-want
 mkdir data plugins
-```
-
-Set the owner of these directories to user of UID `1000`.
-Docker containers identify file owners using the UID,
-so if your current user is coincidentally also UID 1000 (you can check this with `echo $UID`),
-this operation might do nothing.
-Otherwise, you might need root access to change the owner of a directory:
-
-```
 sudo chown -R 1000:1000 data plugins
-```
-
-`data` will store the server data, and `plugins` will store the server plugins.
-You can install plugins inside the `plugins` directory before starting the server.
-
-Now you can run PocketMine-Docker with the following command:
-
-```
 docker run -it -p 19132:19132/udp -v $PWD/data:/data -v $PWD/plugins:/plugins pmmp/pocketmine-mp
 ```
 
-Do NOT change the server port in server.properties.
-If you want to open the server on another port (e.g. `12345` instead),
-change the `19132:19132/udp` above to `12345:19132/udp`.
-(The second number is ALWAYS `19132`)
+To run a specific version, just add it to the end of the command, like this:
+```
+docker run -it -p 19132:19132/udp -v $PWD/data:/data -v $PWD/plugins:/plugins pmmp/pocketmine-mp:4.0.0
+```
 
-### Run the server in the background
+
+## Changing the server port
+Docker allows you to map ports, so you don't need to edit `server.properties`.
+
+In the run command shown above, change `19132:19132/udp` to `<port number you want>:19132/udp`. **Note: Do not change the second number.**
+
+**Note: Do not change the port in `server.properties`. This is unnecessary when using Docker and will make things more complicated.**
+
+## Editing the server data
+The server data (e.g. worlds, `server.properties`, etc.) will be stored in the `data` folder you created above.
+
+**Note: If you add new files (e.g. a world), don't forget to change the ownership of the file/folder to `1000:1000`:
+```
+sudo chown -R 1000:1000 <file/folder you added>
+```
+This is needed to make the server able to access the file/folder.
+
+## Adding plugins
+Plugins can be added by putting them in `plugins` folder you created earlier.
+
+
+**Note: If you add new files, don't forget to change the ownership of the file/folder to `1000:1000`:
+```
+sudo chown -R 1000:1000 <file/folder you added>
+```
+This is needed to make the server able to access the file/folder.
+
+## Run the server in the background
 To run the server in the background, simply change `-it` to `-itd` in the last command above.
 This will run the server in the background even if you closed console. (No need to `screen`/`tmux` anymore!)
 
-When you run this command, it will display the container name that runs the server,
-e.g. `admiring_boyd`, `bold_kilby`, or other random names.
+### Opening the console of the server
+Use `docker ps` to see a list of running containers. It will look like this:
+```
+user@DYLANS-PC:~/pm-docker-test$ docker ps
+CONTAINER ID   IMAGE                      COMMAND                  CREATED         STATUS         PORTS                                                                              NAMES
+dc20edd3dd62   pmmp/pocketmine-mp:4.0.0   "start-pocketmine"       7 seconds ago   Up 6 seconds   19132/tcp, 0.0.0.0:19132-19133->19132-19133/udp, :::19132-19133->19132-19133/udp   brave_dijkstra
+```
+In this case, the container name is `brave_dijkstra`, but it might be something else in your case.
 
 To open the console, run the following command:
 
 ```
-docker attach container_name
+docker attach <container name you saw in docker ps>
 ```
 
 To leave the console, just press `Ctrl p` `Ctrl q`.
 
-Alternatively, use `docker logs container_name` to view the console output without getting stuck in the console.
+### Viewing the logs
+To see the logs, run the following command:
+```
+docker logs --tail=100 <container name you saw in docker ps>
+```
+Change `--tail=100` to the number of recent lines in the log you want to see.
 
 ## Reference
 This section is the technical reference for users who already know how to use Docker.
