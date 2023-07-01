@@ -1,0 +1,15 @@
+---
+version: "3"
+
+services:
+  server:
+    image: pmmp/pocketmine-mp:latest
+    container_name: server
+    restart: always
+    ports:
+      - "19132:19132"
+      - "19132:19132/udp"
+    volumes:
+      - ./data:/data
+      - ./plugins:/plugins
+
