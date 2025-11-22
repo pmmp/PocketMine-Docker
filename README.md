@@ -1,3 +1,8 @@
+# :warning: Merged into [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP/commit/19cf57a6db1ea2dbdc66329ee825eb14c3003fce) for more streamlined maintenance
+This repository is **no longer used**. Please refer to the `docker` folder of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) instead.
+
+The `pmmp/pocketmine-mp` Docker images are now managed by the main repo directly to reduce development friction.
+
 # PocketMine-Docker
 Hosts the files used to build pmmp/pocketmine-mp docker image
 
